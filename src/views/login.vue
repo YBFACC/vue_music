@@ -9,7 +9,7 @@ import { login } from '@/api/axios.js'
 import { setCookie } from '@/utils/cookie.js'
 export default {
   mounted() {
-    login('15257578262', '87057876Yu').then(res => {
+    login().then(res => {
       console.log(res)
       setCookie(res.token)
     })
