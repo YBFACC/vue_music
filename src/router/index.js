@@ -58,6 +58,11 @@ const routes = [
     path: '/user',
     name: 'User',
     component: User
+  },
+  {
+    path: '/play',
+    name: 'Play',
+    component: Play
   }
 ]
 
