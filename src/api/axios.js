@@ -17,3 +17,6 @@ export const login = (phone, password) => {
 }
 
 export const playlist_detail = id => api.get('/playlist/detail?id=' + id)
+
+
+export const song_url = song_id => api.get('/song/url?id=' + song_id)
