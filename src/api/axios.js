@@ -16,4 +16,4 @@ export const login = (phone, password) => {
   return api.post('/login/cellphone', data)
 }
 
-export const playlist_detail=(id)=>api.get('/playlist/detail?id='+id)
+export const playlist_detail = id => api.get('/playlist/detail?id=' + id)
