@@ -1,8 +1,8 @@
 <template>
   <div>
-    play
-    <audio :src="song_url" ref="audio"  autoplay loop></audio>
-    <button @click="play()">play</button>
+    <audio :src="song_url" ref="audio" loop></audio>
+    <button @click="play()" style="">play</button>
+    <button @click="display()">pause</button>
   </div>
 </template>
 
@@ -17,9 +17,21 @@ export default {
     this.song_url = this.$route.query.song_url
   },
   methods: {
-    play(){
+    play() {
       this.$refs.audio.play()
+    },
+    display() {
+      this.$refs.audio.pause()
     }
-  },
+  }
 }
 </script>
+
+<style lang="stylus" scoped>
+button
+  font-size  20px
+  display block
+  width 100%
+  color #fff
+  height 30px
+</style>
