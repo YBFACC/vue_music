@@ -9,6 +9,10 @@ import FastClick from 'fastclick'
 
 import '@/utils/rem.js'
 
+import {Message} from "element-ui"
+
+Vue.prototype.$message = Message;
+
 Vue.config.productionTip = false
 
 FastClick.attach(document.body)
