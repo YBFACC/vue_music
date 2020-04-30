@@ -15,6 +15,11 @@ export default {
   components: {
     Mheader,
     Tab
+  },
+  created() {
+    if (!this.$store.getters.songer_list) {
+      this.$store.dispatch('SONGER_LIST')
+    }
   }
 }
 </script>
