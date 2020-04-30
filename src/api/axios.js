@@ -30,4 +30,10 @@ export const song_detail = ids => api.get('/song/detail?ids=' + ids)
 export const hot_songer = () => api.get('/top/artists?offset=0&limit=10')
 
 //按首字母请求歌手列表
-export const song_list = char => api.get('/artist/list?type=-1&area=-1&limit=5&initial='+char)
+export const song_list = char =>
+  api.get('/artist/list?type=-1&area=-1&limit=5&initial=' + char)
+
+//所有榜单
+export const top_list = () => api.get('/toplist')
+
+
