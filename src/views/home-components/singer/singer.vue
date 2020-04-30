@@ -1,7 +1,7 @@
 <template>
   <div class="listview">
     <ul>
-      <li v-for="(char, index) in list" :key="index">
+      <li v-for="(char, index) in songer_list" :key="index">
         <h2 class="title">{{ char.title }}</h2>
         <ul>
           <li
@@ -17,43 +17,14 @@
     </ul>
   </div>
 </template>
+
 <script>
-import { hot_songer, song_list } from '@/api/axios.js'
-import Singer from '@/utils/singer.js'
+import { mapState, mapGetters } from 'vuex'
 export default {
-  data() {
-    return {
-      list: []
-    }
+  computed: {
+    ...mapState(['songer_list'])
   },
-  async mounted() {
-    let hot = {
-      title: '热门',
-      items: []
-    }
-    await hot_songer().then(res => {
-      res.data.artists.forEach(item => {
-        hot.items.push(new Singer(item.id, item.name, item.picUrl))
-      })
-    })
-    this.list.push(hot)
-
-    for (let i = 97; i < 123; i++) {
-      const key = String.fromCharCode(i)
-      let temp = {
-        title: key.toUpperCase(),
-        items: []
-      }
-      await song_list(key).then(res => {
-        res.data.artists.forEach(item => {
-          temp.items.push(new Singer(item.id, item.name, item.picUrl))
-        })
-      })
-
-      this.list.push(temp)
-      console.log(this.list)
-    }
-  }
+  
 }
 </script>
 
