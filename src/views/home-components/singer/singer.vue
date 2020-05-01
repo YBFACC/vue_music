@@ -36,6 +36,7 @@ export default {
     height: 1.8rem
     line-height: 1.8rem
     padding-left: 1.25rem
+    box-sizing border-box
     font-size: $font-size-small
     color: $color-text-l
     background: $color-highlight-background
