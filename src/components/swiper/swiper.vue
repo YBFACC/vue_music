@@ -5,7 +5,7 @@
       :key="index"
       class="swiper_wapper"
     >
-      <img :src="item.pic" alt="" srcset="" class="banner_img"/>
+      <img :src="item.pic+'?param=375y145'" alt="" srcset="" class="banner_img"/>
     </swiper-slide>
 
     <div class="swiper-pagination" slot="pagination"></div>
@@ -53,6 +53,7 @@ export default {
 <style lang="stylus" scoped>
 .swiper_wapper
   width 100%
+  height 9rem
   .banner_img
     height 100%
     width 100%
