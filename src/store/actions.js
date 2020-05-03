@@ -1,5 +1,7 @@
 import { login, hot_songer, song_list } from '@/api/axios.js'
-import Singer from '@/utils/singer.js'
+import Singer from '@/obj/singer.js'
+
+import { getStore } from '@/utils/store.js'
 
 const actions = {
   LOGIN({ commit }, userInfo) {
@@ -47,6 +49,11 @@ const actions = {
       }
       resolve(list)
     }).then(list => commit('SET_SONGER_LIST', list))
+  },
+  SEARCH_HISTORY({ commit }, query) {
+    let list = getStore('search_history') || []
+    list.push(query)
+    commit('SET_SEARCH_HISTORY', list)
   }
 }
 

@@ -6,7 +6,8 @@ const state = {
   singer: {},
   playing: false,
   playlist: [],
-  songer_list: getStore('songer_list')
+  songer_list: getStore('songer_list'),
+  search_history: getStore('search_history')
 }
 
 export default state
