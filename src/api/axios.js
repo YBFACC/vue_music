@@ -34,6 +34,7 @@ export const song_list = char =>
   api.get('/artist/list?type=-1&area=-1&limit=5&initial=' + char)
 
 //所有榜单
-export const top_list = () => api.get('/toplist')
+export const top_list_detail = () => api.get('/toplist/detail')
 
-
+//热搜列表
+export const search_hot = () => api.get('/search/hot')
