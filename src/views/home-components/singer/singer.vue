@@ -9,7 +9,7 @@
             :key="index"
             class="songer_item"
           >
-            <img :src="songer.picUrl" class="songer_imge" />
+            <img :src="songer.picUrl + '?param=64y64'" class="songer_imge" />
             <span class="songer_name">{{ songer.name }}</span>
           </li>
         </ul>
@@ -19,12 +19,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapState(['songer_list'])
-  },
-  
+    ...mapGetters(['songer_list'])
+  }
 }
 </script>
 
