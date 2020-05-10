@@ -10,8 +10,14 @@ const mutations = {
   SET_SONGER_LIST: function(state, list) {
     setStore('songer_list', list)
   },
-  SET_SEARCH_HISTORY:function(state, list){
+  SET_SEARCH_HISTORY: function(state, list) {
     setStore('search_history', list)
+  },
+  SET_FULL_SCREEN: function(state, flag) {
+    state.full_screen = flag
+  },
+  SET_PLAYING_STATE: function(state, flag) {
+    state.playing = flag
   }
 }
 
