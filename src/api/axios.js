@@ -1,8 +1,23 @@
 import axios from 'axios'
+import router from '@/router/index.js'
 
 const api = new axios.create({
   timeout: 5000
 })
+
+api.interceptors.response.use(
+  response => {
+    const res = response.data
+    if (res.code === 301) {
+      throw new Error('301')
+    }
+    return response
+  },
+  error => {
+    router.push('/login')
+    return Promise.reject(error)
+  }
+)
 
 export const banner = () => api.get('/banner?type=2')
 
