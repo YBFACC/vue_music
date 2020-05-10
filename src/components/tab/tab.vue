@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import "~@/assets/stylus/variable"
+@import "~@/assets/stylus/variable"
 .tab
   display flex
   height 2.75rem
@@ -36,4 +36,11 @@ export default {
   justify-content space-around
   .tab_item
     flex 1
+    .tab-link
+      padding-bottom: 5px
+      color: $color-text-l
+      border-bottom: 2px solid $color-theme
+  .router-link-active
+    color: $color-theme
+    border-bottom: 2px solid $color-theme
 </style>
