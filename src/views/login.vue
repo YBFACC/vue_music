@@ -67,7 +67,7 @@ export default {
     },
     handleLogin() {
       this.$store.dispatch('LOGIN', this.Form).then(res => {
-        this.$router.push({ path: 'home' })
+        this.$router.push({ path: '/' })
       })
     }
   }
