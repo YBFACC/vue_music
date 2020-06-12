@@ -1,4 +1,4 @@
-import { login, hot_songer, song_list } from '@/api/axios.js'
+import { login, hot_songer, song_list, song_url } from '@/api/axios.js'
 import Singer from '@/obj/singer.js'
 
 import { getStore } from '@/utils/store.js'
@@ -54,6 +54,14 @@ const actions = {
     let list = getStore('search_history') || []
     list.push(query)
     commit('SET_SEARCH_HISTORY', list)
+  },
+  SELECT_PLAY({ commit, state }, list) {
+    state.playlist.length = 0
+    state.playlist.push(...list.song_list)
+    state.current_index = list.index
+    commit('SET_FULL_SCREEN', true)
+    commit('SET_PLAYING_STATE', true)
+    // song_url(song_id).then(res => {})
   }
 }
 
