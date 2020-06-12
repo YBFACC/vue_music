@@ -24,7 +24,7 @@
             class="item"
             v-for="(item, index) in tracks"
             :key="index"
-            @click="selectItem(item.id)"
+            @click="selectItem(tracks, index)"
           >
             <div class="content">
               <h2 class="name">{{ item.name }}</h2>
@@ -63,8 +63,8 @@ export default {
     back() {
       this.$router.back()
     },
-    selectItem(song_id) {
-      this.$store.dispatch('SELECT_PLAY', song_id)
+    selectItem(song_list, index) {
+      this.$store.dispatch('SELECT_PLAY', { song_list, index })
     }
   },
   computed: {
