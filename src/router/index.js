@@ -3,66 +3,49 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const Login = () => import('@/views/login.vue')
-const User = () => import('@/views/user.vue')
-const MusicList = () => import('@/views/music-list.vue')
-const Play = () => import('@/views/play.vue')
 
-const Home = () => import(/* webpackChunkName:"home"*/ '@/views/home.vue')
-const Search = () => import('@/views/home-components/search/search.vue')
-const Rank = () => import('@/views/home-components/rank/rank.vue')
-const Singer = () => import('@/views/home-components/singer/singer.vue')
-const Recommend = () =>
-  import('@/views/home-components/recommend/recommend.vue')
+const MusicList = () => import('@/components/music-list/music-list.vue')
+
+const User = () => import('@/views/user.vue')
+const Search = () => import('@/views/search.vue')
+const Rank = () => import('@/views/rank.vue')
+const Singer = () => import('@/views/singer.vue')
+const Recommend = () => import('@/views/recommend.vue')
 
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/recommend'
   },
   {
-    path: '/home',
-    component: Home,
+    path: '/recommend',
+    component: Recommend,
     children: [
       {
-        path: '',
-        redirect: 'recommend'
-      },
-      {
-        path: 'recommend',
-        component: Recommend
-      },
-      {
-        path: 'singer',
-        component: Singer
-      },
-      {
-        path: 'rank',
-        component: Rank
-      },
-      {
-        path: 'search',
-        component: Search
+        path: ':id',
+        component: MusicList
       }
     ]
   },
   {
+    path: '/singer',
+    component: Singer
+  },
+  {
+    path: '/rank',
+    component: Rank
+  },
+  {
     path: '/login',
-    name: 'Login',
     component: Login
   },
   {
-    path: '/music_list',
-    component: MusicList
+    path: '/search',
+    component: Search
   },
   {
     path: '/user',
-    name: 'User',
     component: User
-  },
-  {
-    path: '/play',
-    name: 'Play',
-    component: Play
   },
   {
     path: '*',
