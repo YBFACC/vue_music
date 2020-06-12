@@ -36,7 +36,6 @@ export default {
   },
   mounted() {
     recommend().then(res => {
-      console.log(res)
 
       this.recommend_list = res.data.recommend
     })
@@ -78,7 +77,7 @@ export default {
           width 4rem
           height 4rem
           margin-right 1.25rem
-          animation cril 5s  infinite
+         
       .text
         display flex
         flex-direction column
