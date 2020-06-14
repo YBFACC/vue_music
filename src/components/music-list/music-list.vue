@@ -24,7 +24,7 @@
             class="item"
             v-for="(item, index) in tracks"
             :key="index"
-            @click="selectItem(tracks, index)"
+            @click="selectItem(index)"
           >
             <div class="content">
               <h2 class="name">{{ item.name }}</h2>
@@ -40,6 +40,7 @@
 <script>
 import { playlist_detail, song_url, song_detail } from '@/api/axios.js'
 import Scroll from '@/components/scroll/scroll.vue'
+import filter_tracks from '@/obj/tracks.js'
 export default {
   data() {
     return {
@@ -63,8 +64,17 @@ export default {
     back() {
       this.$router.back()
     },
-    selectItem(song_list, index) {
-      this.$store.dispatch('SELECT_PLAY', { song_list, index })
+    selectItem(index) {
+      let filter_list = []
+      for (let i = 0; i < this.tracks.length; i++) {
+        let _track = new filter_tracks(
+          this.tracks[i].al,
+          this.tracks[i].ar[0]
+        )
+        filter_list.push(_track)
+      }
+
+      this.$store.dispatch('SELECT_PLAY', { filter_list, index })
     }
   },
   computed: {

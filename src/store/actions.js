@@ -57,11 +57,10 @@ const actions = {
   },
   SELECT_PLAY({ commit, state }, list) {
     state.playlist.length = 0
-    state.playlist.push(...list.song_list)
+    state.playlist.push(...list.filter_list)
     state.current_index = list.index
     commit('SET_FULL_SCREEN', true)
     commit('SET_PLAYING_STATE', true)
-    // song_url(song_id).then(res => {})
   }
 }
 
