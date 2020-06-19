@@ -7,6 +7,7 @@ const state = {
   playing: false,
   full_screen: false,
   playlist: [],
+  songs_url_list: [],
   current_index: -1,
   songer_list: getStore('songer_list'),
   search_history: getStore('search_history'),

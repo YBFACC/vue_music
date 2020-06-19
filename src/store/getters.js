@@ -1,3 +1,5 @@
+import state from './state'
+
 const getters = {
   user_info: state => state.user_info,
   songer_list: state => state.songer_list,
@@ -5,6 +7,7 @@ const getters = {
   playlist: state => state.playlist,
   playing: state => state.playing,
   fullScreen: state => state.full_screen,
-  current_song: state => state.playlist[state.current_index]
+  current_song: state => state.playlist[state.current_index],
+  current_url: state => state.songs_url_list[state.current_index]
 }
 export default getters
