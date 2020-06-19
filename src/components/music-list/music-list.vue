@@ -66,15 +66,13 @@ export default {
     },
     selectItem(index) {
       let filter_list = []
+      let ids = []
       for (let i = 0; i < this.tracks.length; i++) {
-        let _track = new filter_tracks(
-          this.tracks[i].al,
-          this.tracks[i].ar[0]
-        )
+        let _track = new filter_tracks(this.tracks[i].al, this.tracks[i].ar[0])
         filter_list.push(_track)
+        ids.push(_track.song_id)
       }
-
-      this.$store.dispatch('SELECT_PLAY', { filter_list, index })
+      this.$store.dispatch('SELECT_PLAY', { filter_list, index, ids })
     }
   },
   computed: {

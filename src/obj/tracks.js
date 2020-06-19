@@ -5,5 +5,9 @@ export default class filter_tracks {
     this.song_picUrl = al.picUrl
     this.songer_id = ar.id
     this.songer_name = ar.name
+    this.url = null
+  }
+  add_songUrl(url) {
+    this.url = url
   }
 }

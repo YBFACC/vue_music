@@ -55,12 +55,17 @@ const actions = {
     list.push(query)
     commit('SET_SEARCH_HISTORY', list)
   },
-  SELECT_PLAY({ commit, state }, list) {
+  async SELECT_PLAY({ dispatch, commit, state }, list) {
     state.playlist.length = 0
     state.playlist.push(...list.filter_list)
+    await dispatch('GET_URL', list.ids)
     state.current_index = list.index
     commit('SET_FULL_SCREEN', true)
     commit('SET_PLAYING_STATE', true)
+  },
+  async GET_URL({ state }, ids) {
+    let url = await song_url(ids.join(','))
+    state.songs_url_list.push(...url.data.data)
   }
 }
 
