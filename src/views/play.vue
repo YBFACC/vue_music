@@ -1,5 +1,5 @@
 <template>
-  <div class="play" v-show="playlist.length > 0">
+  <div class="play" v-if="current_url && current_song">
     <transition name="normal">
       <div class="normal-player" v-show="fullScreen">
         <header>
@@ -10,18 +10,43 @@
           <div class="subtitle">{{ current_song.songer_name }}</div>
         </header>
         <div class="middle">
-          <div class="middle-l"></div>
+          <div class="middle-l">
+            <div class="cd-wrapper">
+              <div class="cd">
+                <img :src="current_song.song_picUrl+ '?param=300y300'" />
+              </div>
+            </div>
+          </div>
+          <div class="middle-r"></div>
+        </div>
+        <div class="bottom">
+          <div class="operators">
+            <div class="icon i-left">
+              <i class="icon-sequence"></i>
+            </div>
+            <div class="icon i-left">
+              <i class="icon-prev"></i>
+            </div>
+            <div class="icon i-center">
+              <i @click="togglePlaying()" class="icon-play"></i>
+            </div>
+            <div class="icon i-right">
+              <i class="icon-next"></i>
+            </div>
+            <div class="icon i-right">
+              <i class="icon"></i>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="bottom"></div>
     </transition>
 
     <transition name="mini">
       <div class="mini-paly" @click="open" v-show="!fullScreen">
         <img class="icon" />
         <div class="text">
-          <h2 class="name">232323</h2>
-          <p class="desc">232323</p>
+          <h2 class="name">{{ current_song.song_name }}</h2>
+          <p class="desc">{{ current_song.songer_name }}</p>
         </div>
         <div class="contral" @click="switch_play()">
           <i class="icon-play-mini"></i>
@@ -31,7 +56,7 @@
         </div></div
     ></transition>
 
-    <audio :src="current_song_url" ref="audio" loop></audio>
+    <audio :src="current_url.url" ref="audio" loop></audio>
   </div>
 </template>
 
@@ -40,39 +65,42 @@ import { mapGetters, mapMutations } from 'vuex'
 import { song_url } from '@/api/axios.js'
 export default {
   data() {
-    return {
-      current_song_url: '',
-      current_song_pic: ''
-    }
+    return {}
   },
-
   methods: {
     open() {
       this.$store.commit('SET_FULL_SCREEN', true)
     },
     back() {
       this.$store.commit('SET_FULL_SCREEN', false)
+    },
+    togglePlaying() {
+      this.$store.commit('SET_PLAYING_STATE', !this.playing)
     }
   },
   computed: {
-    ...mapGetters(['playing', 'fullScreen']),
+    ...mapGetters(['playing', 'fullScreen', 'current_url']),
     ...mapGetters(['playlist', 'current_song'])
   },
   watch: {
-    // current_song: {
-    //   handler(newSong, oldSong) {
-    //     if (!newSong) return
-    //     if ((newSong.song_id = oldSong.song_id)) {
-    //       return
-    //     }
-    //     console.log(newSong)
-    //     song_url(newSong.song_id).then(res => {
-    //       console.log(res)
-    //       this.current_song_url = res.data
-    //     })
-    //   },
-    //   immediate: true
-    // }
+    current_song: {
+      handler(newSong, oldSong) {
+        if (!newSong) return
+        if (oldSong && newSong.song_id === oldSong.song_id) {
+          return
+        }
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$refs.audio.play()
+        }, 1000)
+      }
+    },
+    playing(newPlaying) {
+      this.$nextTick(() => {
+        const audio = this.$refs.audio
+        newPlaying ? audio.play() : audio.pause()
+      })
+    }
   }
 }
 </script>
@@ -139,4 +167,62 @@ export default {
         text-align: center
         font-size: $font-size-medium
         color: $color-text
+    .middle
+      position fixed
+      top 5rem
+      bottom 10.6rem
+      width 100%
+      white-space: nowrap
+      overflow auto
+      .middle-l
+        width 100%
+        display inline-block
+        height 100%
+        vertical-align top
+        position: relative
+        .cd-wrapper
+          width 80%
+          margin 0 auto
+          .cd
+            width 100%
+            border-radius 50%
+            img
+              width 100%
+              height 100%
+              border-radius 50%
+      .middle-r
+        display inline-block
+        background-color red
+        width 100%
+        height 100%
+        overflow auto
+        vertical-align top
+
+    .bottom
+      position: absolute
+      bottom 50px
+      width: 100%
+      height 100px
+      .operators
+        display flex
+        justify-content space-around
+        align-items center
+        .icon
+          flex: 1
+          color: $color-theme
+          &.disable
+            color: $color-theme-d
+          i
+            font-size: 30px
+        .i-left
+          text-align: right
+        .i-center
+          padding: 0 20px
+          text-align: center
+          i
+            font-size: 40px
+        .i-right
+          text-align: left
+        .icon-favorite
+          color: $color-sub-theme
 </style>
