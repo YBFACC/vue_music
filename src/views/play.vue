@@ -43,13 +43,13 @@
 
     <transition name="mini">
       <div class="mini-paly" @click="open" v-show="!fullScreen">
-        <img class="icon" :src="current_song.song_picUrl + '?param=70y40'"/>
+        <img class="icon" :src="current_song.song_picUrl + '?param=70y40'" />
         <div class="text">
           <h2 class="name">{{ current_song.song_name }}</h2>
           <p class="desc">{{ current_song.songer_name }}</p>
         </div>
-        <div class="contral" @click="switch_play()">
-          <i class="icon-play-mini"></i>
+        <div class="contral" @click.stop="togglePlaying()">
+          <i :class="miniIcon()"></i>
         </div>
         <div class="contral">
           <i class="icon-playlist"></i>
@@ -76,6 +76,9 @@ export default {
     },
     playIcon() {
       return this.playing ? 'icon-pause' : 'icon-play'
+    },
+    miniIcon() {
+      return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
     },
     togglePlaying() {
       this.$store.commit('SET_PLAYING_STATE', !this.playing)
