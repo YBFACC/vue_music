@@ -13,7 +13,7 @@
           <div class="middle-l">
             <div class="cd-wrapper">
               <div class="cd">
-                <img :src="current_song.song_picUrl+ '?param=300y300'" />
+                <img :src="current_song.song_picUrl + '?param=300y300'" />
               </div>
             </div>
           </div>
@@ -28,7 +28,7 @@
               <i class="icon-prev"></i>
             </div>
             <div class="icon i-center">
-              <i @click="togglePlaying()" class="icon-play"></i>
+              <i @click="togglePlaying()" :class="playIcon()"></i>
             </div>
             <div class="icon i-right">
               <i class="icon-next"></i>
@@ -43,7 +43,7 @@
 
     <transition name="mini">
       <div class="mini-paly" @click="open" v-show="!fullScreen">
-        <img class="icon" />
+        <img class="icon" :src="current_song.song_picUrl + '?param=70y40'"/>
         <div class="text">
           <h2 class="name">{{ current_song.song_name }}</h2>
           <p class="desc">{{ current_song.songer_name }}</p>
@@ -73,6 +73,9 @@ export default {
     },
     back() {
       this.$store.commit('SET_FULL_SCREEN', false)
+    },
+    playIcon() {
+      return this.playing ? 'icon-pause' : 'icon-play'
     },
     togglePlaying() {
       this.$store.commit('SET_PLAYING_STATE', !this.playing)
@@ -131,6 +134,10 @@ export default {
       font-size: 30px
       color: $color-theme-d
       padding 0 10px
+    &.mini-enter-active, &.mini-leave-active
+      transition: all 0.4s
+    &.mini-enter, &.mini-leave-to
+      opacity: 0
   .normal-player
     position fixed
     width 100%
@@ -225,4 +232,14 @@ export default {
           text-align: left
         .icon-favorite
           color: $color-sub-theme
+    &.normal-enter-active, &.normal-leave-active
+      transition: all 0.4s
+      .top, .bottom
+        transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32)
+    &.normal-enter, &.normal-leave-to
+      opacity: 0
+      .top
+        transform: translate3d(0, -100px, 0)
+      .bottom
+        transform: translate3d(0, 100px, 0)
 </style>
