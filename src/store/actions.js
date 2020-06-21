@@ -65,6 +65,8 @@ const actions = {
   },
   async GET_URL({ state }, ids) {
     let url = await song_url(ids.join(','))
+    console.log(url)
+
     state.songs_url_list.push(...url.data.data)
   }
 }
