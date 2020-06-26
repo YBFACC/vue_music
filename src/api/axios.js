@@ -53,3 +53,6 @@ export const top_list_detail = () => api.get('/toplist/detail')
 
 //热搜列表
 export const search_hot = () => api.get('/search/hot')
+
+//获取歌词
+export const lyric = id => api.get('/lyric?id=' + id)
