@@ -16,6 +16,7 @@
     "element-ui": "^2.13.1",
     "fastclick": "^1.0.6",
     "js-cookie": "^2.2.1",
+    "lyric-parser": "^1.0.1",
     "swiper": "^5.3.7",
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.1.0",
