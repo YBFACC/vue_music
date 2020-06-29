@@ -40,39 +40,57 @@
 <script>
 import { playlist_detail, song_url, song_detail } from '@/api/axios.js'
 import Scroll from '@/components/scroll/scroll.vue'
-import filter_tracks from '@/obj/tracks.js'
+import { create_filter_tracks } from '@/obj/tracks.js'
 export default {
   data() {
     return {
       playlist_name: 'default',
       tracks: [],
       coverImgUrl: '',
-      songer: ''
+      songer: '',
+      filter_list: [],
+      ids: []
     }
   },
   components: {
     Scroll
   },
-  mounted() {
-    playlist_detail(this.$route.params.id).then(res => {
-      this.playlist_name = res.data.playlist.name
-      this.tracks = res.data.playlist.tracks
-      this.coverImgUrl = res.data.playlist.coverImgUrl
-    })
+  async created() {
+    let temp_playlist_detail = await playlist_detail(this.$route.params.id)
+    let playlist = temp_playlist_detail.data.playlist
+    console.log(playlist)
+    this.playlist_name = playlist.name
+    this.tracks = playlist.tracks
+    this.coverImgUrl = playlist.coverImgUrl
+    for (const item of playlist.tracks) {
+      this.filter_list.push(
+        create_filter_tracks(item.id, item.name, item.al, item.ar[0])
+      )
+      this.ids.push(item.id)
+    }
+    let temp_url = await song_url(this.ids.join(','))
+    let url_list = temp_url.data.data
+
+    for (const item of this.filter_list) {
+      for (let i = 0; i < url_list.length; i++) {
+        if (item.song_id === url_list[i].id) {
+          item.setUrl(url_list[i].url)
+          break
+        }
+      }
+    }
   },
+
   methods: {
     back() {
       this.$router.back()
     },
     selectItem(index) {
-      let filter_list = []
-      let ids = []
-      for (let i = 0; i < this.tracks.length; i++) {
-        let _track = new filter_tracks(this.tracks[i].al, this.tracks[i].ar[0])
-        filter_list.push(_track)
-        ids.push(_track.song_id)
-      }
-      this.$store.dispatch('SELECT_PLAY', { filter_list, index, ids })
+      let _this = this
+      this.$store.dispatch('SELECT_PLAY', {
+        filter_list: _this.filter_list,
+        index
+      })
     }
   },
   computed: {
