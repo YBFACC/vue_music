@@ -1,5 +1,5 @@
 <template>
-  <div class="play" v-if="current_url && current_song">
+  <div class="play" v-if="current_song">
     <transition name="normal">
       <div class="normal-player" v-show="fullScreen">
         <header>
@@ -22,9 +22,6 @@
         <div class="bottom">
           <div class="operators">
             <div class="icon i-left">
-              <i class="icon-sequence"></i>
-            </div>
-            <div class="icon i-left">
               <i class="icon-prev"></i>
             </div>
             <div class="icon i-center">
@@ -32,9 +29,6 @@
             </div>
             <div class="icon i-right">
               <i class="icon-next"></i>
-            </div>
-            <div class="icon i-right">
-              <i class="icon"></i>
             </div>
           </div>
         </div>
@@ -48,15 +42,15 @@
           <h2 class="name">{{ current_song.song_name }}</h2>
           <p class="desc">{{ current_song.songer_name }}</p>
         </div>
-        <div class="contral" @click.stop="togglePlaying()">
-          <i :class="miniIcon()"></i>
+        <div class="contral" @click.stop="togglePlaying">
+          <i :class="miniIcon"></i>
         </div>
         <div class="contral">
           <i class="icon-playlist"></i>
         </div></div
     ></transition>
 
-    <audio :src="current_url.url" ref="audio" loop></audio>
+    <audio :src="current_song.url" ref="audio"></audio>
   </div>
 </template>
 
