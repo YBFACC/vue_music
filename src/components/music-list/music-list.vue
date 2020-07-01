@@ -18,17 +18,20 @@
       <div class="filter"></div>
     </div>
     <div class="item_warp">
-      <Scroll ref="scroll" class="item_content" :data="tracks">
+      <Scroll ref="scroll" class="item_content" :data="filter_list">
         <ul>
           <li
             class="item"
-            v-for="(item, index) in tracks"
+            v-for="(item, index) in filter_list"
             :key="index"
-            @click="selectItem(index)"
+            @click="item.url ? selectItem(index) : null"
           >
-            <div class="content">
-              <h2 class="name">{{ item.name }}</h2>
-              <p class="desc">{{ item.ar | merge_songer }}</p>
+            <div class="content_warp">
+              <div class="vip">{{ item.url ? '' : 'vip' }}</div>
+              <div class="content">
+                <h2 class="name">{{ item.song_name }}</h2>
+                <p class="desc">{{ item.songer_name }}</p>
+              </div>
             </div>
           </li>
         </ul>
@@ -45,9 +48,7 @@ export default {
   data() {
     return {
       playlist_name: 'default',
-      tracks: [],
       coverImgUrl: '',
-      songer: '',
       filter_list: [],
       ids: []
     }
@@ -58,10 +59,9 @@ export default {
   async created() {
     let temp_playlist_detail = await playlist_detail(this.$route.params.id)
     let playlist = temp_playlist_detail.data.playlist
-    console.log(playlist)
     this.playlist_name = playlist.name
-    this.tracks = playlist.tracks
     this.coverImgUrl = playlist.coverImgUrl
+
     for (const item of playlist.tracks) {
       this.filter_list.push(
         create_filter_tracks(item.id, item.name, item.al, item.ar[0])
@@ -154,20 +154,26 @@ export default {
       .item
         width 100%
         font-size: $font-size-medium
-        .content
-          padding-left 10%
-          height 4rem
-          line-height 4rem
+        .content_warp
           display flex
-          flex-direction column
-          justify-content space-evenly
-          .name
-            height 1rem
-            line-height 1rem
-            justify-content center
-          .desc
-            color: $color-text-d
-            height 1rem
-            line-height 1rem
-            justify-content center
+          align-items center
+          padding-left 3%
+          .vip
+            color red
+          .content
+            padding-left 6%
+            height 4rem
+            line-height 4rem
+            display flex
+            flex-direction column
+            justify-content space-evenly
+            .name
+              height 1rem
+              line-height 1rem
+              justify-content center
+            .desc
+              color: $color-text-d
+              height 1rem
+              line-height 1rem
+              justify-content center
 </style>
