@@ -18,6 +18,9 @@ const mutations = {
   },
   SET_PLAYING_STATE: function(state, flag) {
     state.playing = flag
+  },
+  SET_CURRENT_INDEX: function(state, index) {
+    state.current_index = index
   }
 }
 
