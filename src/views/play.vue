@@ -21,13 +21,13 @@
         </div>
         <div class="bottom">
           <div class="operators">
-            <div class="icon i-left">
+            <div class="icon i-left" @click.stop="prev">
               <i class="icon-prev"></i>
             </div>
             <div class="icon i-center">
-              <i @click="togglePlaying()" :class="playIcon()"></i>
+              <i @click="togglePlaying" :class="playIcon"></i>
             </div>
-            <div class="icon i-right">
+            <div class="icon i-right" @click.stop="next">
               <i class="icon-next"></i>
             </div>
           </div>
@@ -68,19 +68,33 @@ export default {
     back() {
       this.$store.commit('SET_FULL_SCREEN', false)
     },
+    togglePlaying() {
+      this.$store.commit('SET_PLAYING_STATE', !this.playing)
+    },
+    prev() {
+      let temp = 1
+      while (!this.playlist[this.current_index - temp].url) {
+        temp++
+      }
+      this.$store.commit('SET_CURRENT_INDEX', this.current_index - temp)
+    },
+    next() {
+      let temp = 1
+      while (!this.playlist[this.current_index + temp].url) {
+        temp++
+      }
+      this.$store.commit('SET_CURRENT_INDEX', this.current_index + temp)
+    }
+  },
+  computed: {
+    ...mapGetters(['playing', 'fullScreen', 'current_url']),
+    ...mapGetters(['playlist', 'current_song', 'current_index']),
     playIcon() {
       return this.playing ? 'icon-pause' : 'icon-play'
     },
     miniIcon() {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
-    },
-    togglePlaying() {
-      this.$store.commit('SET_PLAYING_STATE', !this.playing)
     }
-  },
-  computed: {
-    ...mapGetters(['playing', 'fullScreen', 'current_url']),
-    ...mapGetters(['playlist', 'current_song'])
   },
   watch: {
     current_song: {
