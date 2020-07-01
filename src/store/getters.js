@@ -8,6 +8,7 @@ const getters = {
   playing: state => state.playing,
   fullScreen: state => state.full_screen,
   current_song: state => state.playlist[state.current_index],
-  current_url: state => state.songs_url_list[state.current_index]
+  current_url: state => state.songs_url_list[state.current_index],
+  current_index: state => state.current_index
 }
 export default getters
