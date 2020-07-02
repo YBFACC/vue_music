@@ -12,7 +12,7 @@
         <div class="middle">
           <div class="middle-l">
             <div class="cd-wrapper">
-              <div class="cd">
+              <div class="cd" :class="cdCls">
                 <img :src="current_song.song_picUrl + '?param=300y300'" />
               </div>
             </div>
@@ -37,7 +37,11 @@
 
     <transition name="mini">
       <div class="mini-paly" @click="open" v-show="!fullScreen">
-        <img class="icon" :src="current_song.song_picUrl + '?param=70y40'" />
+        <img
+          class="icon"
+          :class="cdCls"
+          :src="current_song.song_picUrl + '?param=70y40'"
+        />
         <div class="text">
           <h2 class="name">{{ current_song.song_name }}</h2>
           <p class="desc">{{ current_song.songer_name }}</p>
@@ -94,6 +98,9 @@ export default {
     },
     miniIcon() {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+    },
+    cdCls() {
+      return this.playing ? 'play' : 'play pause'
     }
   },
   watch: {
@@ -140,6 +147,11 @@ export default {
       width 2.5rem
       height 2.5rem
       padding 0 10px 0 20px
+      border-radius 50%
+      &.play
+        animation: rotate 20s linear infinite
+      &.pause
+        animation-play-state: paused
     .contral
       width 1.8rem
       font-size: 30px
@@ -204,6 +216,10 @@ export default {
           .cd
             width 100%
             border-radius 50%
+            &.play
+              animation: rotate 20s linear infinite
+            &.pause
+              animation-play-state: paused
             img
               width 100%
               height 100%
@@ -253,4 +269,9 @@ export default {
         transform: translate3d(0, -100px, 0)
       .bottom
         transform: translate3d(0, 100px, 0)
+@keyframes rotate
+  0%
+    transform rotate(0)
+  100%
+    transform rotate(360deg)
 </style>
