@@ -76,18 +76,38 @@ export default {
       this.$store.commit('SET_PLAYING_STATE', !this.playing)
     },
     prev() {
-      let temp = 1
-      while (!this.playlist[this.current_index - temp].url) {
-        temp++
+      try {
+        let temp = 1
+        if (this.current_index - temp < 0) {
+          temp = this.current_index - this.playlist.length + 1
+        }
+        while (!this.playlist[this.current_index - temp].url) {
+          temp++
+          if (this.current_index - temp < 0) {
+            temp = this.current_index - this.playlist.length + 1
+          }
+        }
+        this.$store.commit('SET_CURRENT_INDEX', this.current_index - temp)
+      } catch (error) {
+        console.log('切换上一首歌' + error)
       }
-      this.$store.commit('SET_CURRENT_INDEX', this.current_index - temp)
     },
     next() {
-      let temp = 1
-      while (!this.playlist[this.current_index + temp].url) {
-        temp++
+      try {
+        let temp = 1
+        if (this.current_index + temp >= this.playlist.length) {
+          temp = -this.current_index
+        }
+        while (!this.playlist[this.current_index + temp].url) {
+          temp++
+          if (this.current_index + temp >= this.playlist.length) {
+            temp = -this.current_index
+          }
+        }
+        this.$store.commit('SET_CURRENT_INDEX', this.current_index + temp)
+      } catch (error) {
+        console.log('切换下一首歌' + error)
       }
-      this.$store.commit('SET_CURRENT_INDEX', this.current_index + temp)
     }
   },
   computed: {
