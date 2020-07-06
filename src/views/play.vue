@@ -17,7 +17,25 @@
               </div>
             </div>
           </div>
-          <div class="middle-r"></div>
+          <scroll
+            class="middle-r"
+            ref="lyricList"
+            :data="currentLyric && currentLyric.lines"
+          >
+            <div class="lyric-wrapper">
+              <div v-if="currentLyric">
+                <p
+                  ref="lyricLine"
+                  class="text"
+                  :class="{ current: currentLineNum === index }"
+                  v-for="(line, index) in currentLyric.lines"
+                  :key="index"
+                >
+                  {{ line.txt }}
+                </p>
+              </div>
+            </div>
+          </scroll>
         </div>
         <div class="bottom">
           <div class="operators">
@@ -61,9 +79,19 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import { song_url } from '@/api/axios.js'
+import Lyric from 'lyric-parser'
+import Scroll from '@/components/scroll/scroll'
 export default {
   data() {
-    return {}
+    return {
+      songReady: false,
+      currentTime: 0,
+      radius: 32,
+      currentLyric: null,
+      currentLineNum: 0,
+      currentShow: 'cd',
+      playingLyric: ''
+    }
   },
   methods: {
     open() {
@@ -108,6 +136,36 @@ export default {
       } catch (error) {
         console.log('切换下一首歌' + error)
       }
+    },
+    getLyric() {
+      this.current_song
+        .getLyric()
+        .then(lyric => {
+          if (this.current_song.lyric !== lyric) {
+            return
+          }
+          this.currentLyric = new Lyric(lyric, this.handleLyric)
+          console.log(this.currentLyric)
+
+          if (this.playing) {
+            this.currentLyric.play()
+          }
+        })
+        .catch(() => {
+          this.currentLyric = null
+          this.playingLyric = ''
+          this.currentLineNum = 0
+        })
+    },
+    handleLyric({ lineNum, txt }) {
+      this.currentLineNum = lineNum
+      if (lineNum > 5) {
+        let lineEl = this.$refs.lyricLine[lineNum - 5]
+        this.$refs.lyricList.scrollToElement(lineEl, 1000)
+      } else {
+        this.$refs.lyricList.scrollTo(0, 0, 1000)
+      }
+      this.playingLyric = txt
     }
   },
   computed: {
@@ -132,6 +190,7 @@ export default {
         }
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
+          this.getLyric()
           this.$refs.audio.play()
         }, 1000)
       }
@@ -142,6 +201,9 @@ export default {
         newPlaying ? audio.play() : audio.pause()
       })
     }
+  },
+  components: {
+    Scroll
   }
 }
 </script>
@@ -245,12 +307,22 @@ export default {
               height 100%
               border-radius 50%
       .middle-r
-        display inline-block
-        background-color red
-        width 100%
-        height 100%
-        overflow auto
-        vertical-align top
+        display: inline-block
+        vertical-align: top
+        width: 100%
+        height: 100%
+        overflow: hidden
+        .lyric-wrapper
+          width: 80%
+          margin: 0 auto
+          overflow: hidden
+          text-align: center
+          .text
+            line-height: 32px
+            color: $color-text-l
+            font-size: $font-size-medium
+            &.current
+              color: $color-text
 
     .bottom
       position: absolute
