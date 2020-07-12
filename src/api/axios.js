@@ -56,3 +56,7 @@ export const search_hot = () => api.get('/search/hot')
 
 //获取歌词
 export const lyric = id => api.get('/lyric?id=' + id)
+
+//搜索单曲
+export const search = name =>
+  api.get(`/search?keywords=${name}&limit=30&type=1`)
